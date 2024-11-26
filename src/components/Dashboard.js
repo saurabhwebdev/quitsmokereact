@@ -5,6 +5,60 @@ import { differenceInDays, differenceInHours, differenceInMinutes, differenceInS
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../firebase/config';
 
+const getMotivationalMessage = (cigarettesFromCravings, hasRecentSmoke, totalDays) => {
+  const messages = {
+    strongProgress: [
+      "You're crushing it! Keep going! 💪",
+      "Every craving defeated makes you stronger! 🌟",
+      "You're proving how strong you really are! 🏆",
+      "Look at you go! Absolutely crushing this! 🚀",
+      "You're writing your success story! 📖✨",
+      "Your willpower is incredible! 💫",
+      "You're an inspiration! Keep going! 🌈",
+      "Breaking free, one day at a time! 🦋",
+      "Your future self will thank you! 🎯",
+      "You're doing amazing things! 🌟"
+    ],
+    recentSlip: [
+      "Small setback, major comeback! 💪",
+      "Today is a new day to start fresh! 🌅",
+      "You're learning and growing stronger! 🌱",
+      "Don't give up, you've got this! ✨",
+      "Progress isn't always perfect, and that's okay! 🌈",
+      "Every moment is a chance to start again! 🎯",
+      "You're stronger than your struggles! 💫",
+      "Keep pushing forward! 🚀",
+      "This is just a bump in the road! 🛤️",
+      "Your journey continues - stay strong! 🌟"
+    ],
+    milestone: [
+      `${totalDays} days smoke-free! Incredible! 🎉`,
+      "You're rewriting your health story! 📚✨",
+      "Look how far you've come! 🎯",
+      "You're proving it's possible! 🌟",
+      "Your dedication is inspiring! 💫",
+      "You're creating lasting change! 🦋",
+      "Every day smoke-free is a victory! 🏆",
+      "You're building a healthier future! 🌱",
+      "Your strength is remarkable! 💪",
+      "Keep collecting these victories! 🌟"
+    ]
+  };
+
+  if (totalDays % 7 === 0 && totalDays > 0) {
+    // Return a milestone message for weekly achievements
+    return messages.milestone[Math.floor(Math.random() * messages.milestone.length)];
+  }
+
+  if (hasRecentSmoke) {
+    // Return an encouraging message after a recent slip
+    return messages.recentSlip[Math.floor(Math.random() * messages.recentSlip.length)];
+  }
+
+  // Return a strong progress message for consistent progress
+  return messages.strongProgress[Math.floor(Math.random() * messages.strongProgress.length)];
+};
+
 export default function Dashboard() {
   const { currentUser, logout } = useAuth();
   const navigate = useNavigate();
@@ -153,7 +207,7 @@ export default function Dashboard() {
   );
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 relative">
       <main className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
         <div className="space-y-6">
           {/* Stats Grid */}
@@ -201,7 +255,7 @@ export default function Dashboard() {
                   Cravings Monitor
                 </dt>
                 <dd className="mt-1">
-                  <div className="flex flex-col space-y-1">
+                  <div className="flex flex-col space-y-2">
                     <div className="flex items-center justify-between">
                       <span className="text-2xl sm:text-3xl font-semibold text-gray-900">
                         {cigarettesFromCravings}
@@ -210,15 +264,20 @@ export default function Dashboard() {
                         Relapses
                       </span>
                     </div>
-                    {hasRecentSmoke ? (
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
-                        Recent Activity
-                      </span>
-                    ) : (
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                        Staying Strong
-                      </span>
-                    )}
+                    <div className="flex flex-col space-y-2">
+                      {hasRecentSmoke ? (
+                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                          Recent Activity
+                        </span>
+                      ) : (
+                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                          Staying Strong
+                        </span>
+                      )}
+                      <p className="text-sm text-gray-600">
+                        Breaking free, one day at a time! 🦋
+                      </p>
+                    </div>
                   </div>
                 </dd>
               </div>
@@ -253,6 +312,40 @@ export default function Dashboard() {
           </div>
         </div>
       </main>
+
+      {/* Updated Buy Me a Coffee Button */}
+      <a
+        href="https://www.buymeacoffee.com/saurabhthakur07"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="fixed bottom-8 right-8 inline-flex items-center px-4 py-2.5 border border-transparent 
+          text-sm sm:text-base font-medium rounded-lg shadow-lg text-white bg-primary hover:bg-red-700 
+          focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-all duration-200 
+          hover:scale-105 group space-x-2"
+      >
+        {/* Coffee Cup Icon */}
+        <svg 
+          className="w-5 h-5 sm:w-6 sm:h-6 group-hover:animate-wiggle"
+          viewBox="0 0 24 24" 
+          fill="currentColor"
+        >
+          <path d="M2 21h18v-2H2M20 8h-2V5h2m0-2H4v10a4 4 0 0 0 4 4h6a4 4 0 0 0 4-4v-3h2a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2z"/>
+        </svg>
+        <span className="hidden sm:inline">Buy me a coffee</span>
+        <span className="sm:hidden">Coffee</span>
+      </a>
+
+      {/* Add this keyframe animation to your CSS */}
+      <style jsx>{`
+        @keyframes wiggle {
+          0%, 100% { transform: rotate(0deg); }
+          25% { transform: rotate(-10deg); }
+          75% { transform: rotate(10deg); }
+        }
+        .animate-wiggle {
+          animation: wiggle 1s ease-in-out infinite;
+        }
+      `}</style>
     </div>
   );
 } 
