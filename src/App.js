@@ -9,6 +9,7 @@ import Dashboard from './components/Dashboard';
 import Profile from './components/Profile';
 import Breathing from './components/Breathing';
 import Cravings from './components/Cravings';
+import LandingPage from './components/LandingPage';
 
 function App() {
   return (
@@ -17,21 +18,27 @@ function App() {
         <div className="min-h-screen bg-background">
           <Routes>
             {/* Public routes */}
+            <Route path="/" element={<LandingPage />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
 
             {/* Protected routes */}
-            <Route path="/welcome" element={
+            <Route path="/app" element={
               <PrivateRoute>
-                <WelcomeForm />
+                <Navigate to="/app/dashboard" replace />
               </PrivateRoute>
             } />
-            <Route path="/dashboard" element={
+            <Route path="/app/dashboard" element={
               <PrivateRoute>
                 <div>
                   <Navbar />
                   <Dashboard />
                 </div>
+              </PrivateRoute>
+            } />
+            <Route path="/welcome" element={
+              <PrivateRoute>
+                <WelcomeForm />
               </PrivateRoute>
             } />
             <Route path="/profile" element={
