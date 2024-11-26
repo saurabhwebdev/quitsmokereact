@@ -4,12 +4,14 @@ import Logo from './Logo';
 export default function LandingPage() {
   return (
     <div className="min-h-screen bg-white overflow-hidden">
-      {/* Navigation */}
-      <nav className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
+      {/* Navigation - Reduced padding */}
+      <nav className="relative z-50 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
         <div className="flex justify-between items-center">
           <div className="flex items-center">
             <Logo className="h-8 w-8" />
-            <span className="ml-2 text-xl font-bold text-gray-900">QuitMate</span>
+            <span className="ml-2 text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-rose-600">
+              QuitMate
+            </span>
           </div>
           <div className="flex items-center space-x-4">
             <Link
@@ -20,7 +22,10 @@ export default function LandingPage() {
             </Link>
             <Link
               to="/signup"
-              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-primary hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-full 
+                text-white bg-gradient-to-r from-primary to-rose-600 hover:from-rose-600 hover:to-primary
+                focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-all duration-300 
+                hover:scale-105 shadow-lg hover:shadow-xl"
             >
               Get Started
             </Link>
@@ -28,49 +33,118 @@ export default function LandingPage() {
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <div className="relative">
-        {/* Background decorative elements */}
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="w-96 h-96 bg-primary/5 rounded-full filter blur-3xl animate-blob"></div>
-          <div className="w-96 h-96 bg-blue-100/30 rounded-full filter blur-3xl animate-blob animation-delay-2000"></div>
-          <div className="w-96 h-96 bg-purple-100/20 rounded-full filter blur-3xl animate-blob animation-delay-4000"></div>
+      {/* Hero Section - Adjusted spacing */}
+      <div className="relative min-h-[calc(100vh-48px)]"> {/* Reduced from 64px to 48px */}
+        {/* Background Elements */}
+        <div aria-hidden="true" className="absolute inset-0">
+          <div className="absolute inset-0 max-w-7xl mx-auto overflow-hidden">
+            {/* Gradient Orbs - Adjusted positioning */}
+            <div className="absolute right-1/2 top-1/6 -translate-y-1/2 translate-x-1/2 transform"> {/* Changed from top-1/4 to top-1/6 */}
+              <div className="w-[600px] h-[600px] opacity-50">
+                <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-gradient-to-br from-primary/30 to-rose-500/30 rounded-full mix-blend-multiply filter blur-3xl animate-blob"></div>
+                <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-gradient-to-br from-blue-500/30 to-purple-500/30 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000"></div>
+                <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-gradient-to-br from-yellow-500/30 to-pink-500/30 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-4000"></div>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16 text-center lg:pt-32">
-          <div className="relative z-10">
-            <h1 className="mx-auto max-w-4xl font-display text-5xl font-medium tracking-tight text-slate-900 sm:text-7xl">
-              Your Journey to a{' '}
-              <span className="relative whitespace-nowrap text-primary">
-                <svg
-                  aria-hidden="true"
-                  viewBox="0 0 418 42"
-                  className="absolute left-0 top-2/3 h-[0.58em] w-full fill-primary/20"
-                  preserveAspectRatio="none"
-                >
+        {/* Main Content - Reduced top padding */}
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="pt-6 pb-8 text-center lg:pt-8"> {/* Reduced from pt-10/pt-16 */}
+            {/* Announcement Badge - Reduced margin */}
+            <div className="mb-3 inline-flex animate-float"> {/* Reduced from mb-4 */}
+              <div className="rounded-full p-1 pr-4 bg-gray-900/5 backdrop-blur-sm">
+                <div className="flex items-center space-x-2">
+                  <div className="rounded-full bg-primary/10 px-3 py-1 text-sm font-semibold leading-6 text-primary">
+                    What's new
+                  </div>
+                  <span className="text-sm text-gray-900">
+                    Join thousands who quit smoking with QuitMate 🎉
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Main Heading - Adjusted spacing */}
+            <h1 className="mx-auto max-w-4xl font-display text-4xl sm:text-6xl font-medium tracking-tight text-slate-900 mb-3"> {/* Reduced from mb-4 */}
+              <span className="relative whitespace-nowrap">
+                <svg aria-hidden="true" viewBox="0 0 418 42" className="absolute left-0 top-2/3 h-[0.58em] w-full fill-primary/20" preserveAspectRatio="none">
                   <path d="M203.371.916c-26.013-2.078-76.686 1.963-124.73 9.946L67.3 12.749C35.421 18.062 18.2 21.766 6.004 25.934 1.244 27.561.828 27.778.874 28.61c.07 1.214.828 1.121 9.595-1.176 9.072-2.377 17.15-3.92 39.246-7.496C123.565 7.986 157.869 4.492 195.942 5.046c7.461.108 19.25 1.696 19.17 2.582-.107 1.183-7.874 4.31-25.75 10.366-21.992 7.45-35.43 12.534-36.701 13.884-2.173 2.308-.202 4.407 4.442 4.734 2.654.187 3.263.157 15.593-.78 35.401-2.686 57.944-3.488 88.365-3.143 46.327.526 75.721 2.23 130.788 7.584 19.787 1.924 20.814 1.98 24.557 1.332l.066-.011c1.201-.203 1.53-1.825.399-2.335-2.911-1.31-4.893-1.604-22.048-3.261-57.509-5.556-87.871-7.36-132.059-7.842-23.239-.254-33.617-.116-50.627.674-11.629.54-42.371 2.494-46.696 2.967-2.359.259 8.133-3.625 26.504-9.81 23.239-7.825 27.934-10.149 28.304-14.005.417-4.348-3.529-6-16.878-7.066Z" />
                 </svg>
-                <span className="relative">Smoke-Free Life</span>
+                <span className="relative bg-clip-text text-transparent bg-gradient-to-r from-primary via-rose-500 to-primary animate-gradient bg-[length:200%_auto]">
+                  Transform Your Life
+                </span>
               </span>
+              <br />
+              One Breath at a Time
             </h1>
-            <p className="mx-auto mt-6 max-w-2xl text-lg tracking-tight text-slate-700">
-              Track your progress, manage cravings, and celebrate milestones on your path to a healthier lifestyle.
+
+            {/* Description - Adjusted spacing */}
+            <p className="mx-auto mt-3 max-w-2xl text-lg tracking-tight text-slate-700 mb-4"> {/* Reduced margins */}
+              Your personal companion in the journey to a smoke-free life. Track progress, manage cravings, 
+              and celebrate milestones with a supportive community.
             </p>
-            <div className="mt-10 flex justify-center gap-x-6">
+
+            {/* CTA Buttons - Adjusted spacing */}
+            <div className="flex justify-center gap-x-6 mb-6"> {/* Reduced from mb-8 */}
               <Link
                 to="/signup"
-                className="group relative inline-flex items-center justify-center rounded-full py-2 px-4 text-sm font-semibold focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 bg-primary text-white hover:text-slate-100 hover:bg-red-600 active:bg-red-800 active:text-red-100 focus-visible:outline-red-600 transform transition-all duration-200 hover:scale-105"
+                className="group relative inline-flex items-center justify-center rounded-full py-3 px-6 text-sm font-semibold 
+                  focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 bg-primary text-white hover:text-slate-100 
+                  hover:bg-rose-600 active:bg-rose-800 active:text-rose-100 focus-visible:outline-rose-600 
+                  transform transition-all duration-200 hover:scale-105 shadow-lg hover:shadow-xl"
               >
-                <span className="absolute inset-0 rounded-full bg-gradient-to-b from-white/80 to-white/20 opacity-10 transition-opacity group-hover:opacity-20"></span>
-                Start Your Journey
+                <span className="absolute inset-0 rounded-full bg-gradient-to-r from-primary to-rose-600"></span>
+                <span className="absolute inset-0 rounded-full bg-gradient-to-r from-primary to-rose-600 opacity-0 
+                  transition-opacity group-hover:opacity-100 animate-gradient"></span>
+                <span className="relative flex items-center">
+                  Start Your Journey
+                  <svg className="ml-2 -mr-1 w-5 h-5 group-hover:translate-x-1 transition-transform" 
+                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                  </svg>
+                </span>
               </Link>
+
               <Link
                 to="/login"
-                className="group relative inline-flex ring-1 ring-slate-200 items-center justify-center rounded-full py-2 px-4 text-sm focus:outline-none hover:ring-slate-300 bg-white text-slate-700 hover:text-slate-900 hover:bg-slate-50 active:bg-slate-100 active:text-slate-600 focus-visible:outline-blue-600 focus-visible:ring-slate-300 transform transition-all duration-200 hover:scale-105"
+                className="group inline-flex ring-1 ring-slate-200 items-center justify-center rounded-full py-3 px-6 
+                  text-sm focus:outline-none hover:ring-slate-300 bg-white text-slate-700 hover:text-slate-900 
+                  hover:bg-slate-50 active:bg-slate-100 active:text-slate-600 focus-visible:outline-blue-600 
+                  focus-visible:ring-slate-300 transform transition-all duration-200 hover:scale-105"
               >
-                <span className="absolute inset-0 rounded-full bg-gradient-to-b from-white/80 to-white/20 opacity-10 transition-opacity group-hover:opacity-20"></span>
-                Sign In
+                <span className="relative flex items-center">
+                  Sign In
+                  <svg className="ml-2 -mr-1 w-5 h-5 group-hover:translate-x-1 transition-transform" 
+                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                  </svg>
+                </span>
               </Link>
+            </div>
+
+            {/* Stats Section - Adjusted spacing */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 max-w-4xl mx-auto"> {/* Reduced gap from 4 */}
+              {[
+                { value: '10K+', label: 'Active Users', icon: '👥' },
+                { value: '1M+', label: 'Cigarettes Avoided', icon: '🚭' },
+                { value: '$500K+', label: 'Money Saved', icon: '💰' },
+              ].map((stat, index) => (
+                <div key={index} 
+                  className="relative group bg-white/50 backdrop-blur-sm rounded-xl px-3 py-4 
+                    shadow-lg ring-1 ring-gray-900/5 transition-all duration-300 hover:scale-105 
+                    overflow-hidden"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-rose-500/5 
+                    opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                  <div className="relative">
+                    <div className="text-3xl mb-2">{stat.icon}</div>
+                    <div className="text-2xl font-bold text-gray-900">{stat.value}</div>
+                    <div className="text-sm text-gray-600">{stat.label}</div>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>

@@ -24,6 +24,9 @@ module.exports = {
         'smoke-2': 'smoke 2s ease-out infinite 0.5s',
         'smoke-3': 'smoke 2s ease-out infinite 1s',
         'blob': 'blob 7s infinite',
+        'gradient': 'gradient 8s linear infinite',
+        'draw-line': 'draw-line 1.5s ease-in-out forwards',
+        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
       },
       keyframes: {
         'reverse-spin': {
@@ -71,7 +74,18 @@ module.exports = {
             transform: 'translate(0px, 0px) scale(1)',
           },
         },
-      }
+        gradient: {
+          '0%, 100%': { 'background-position': '0% 50%' },
+          '50%': { 'background-position': '100% 50%' },
+        },
+        'draw-line': {
+          '0%': { 'stroke-dashoffset': '1000' },
+          '100%': { 'stroke-dashoffset': '0' },
+        },
+      },
+      backgroundSize: {
+        '300%': '300%',
+      },
     },
   },
   plugins: [
