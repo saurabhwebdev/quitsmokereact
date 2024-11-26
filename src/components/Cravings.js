@@ -12,7 +12,9 @@ export default function Cravings() {
     intensity: 5,
     trigger: '',
     notes: '',
-    copingStrategy: ''
+    copingStrategy: '',
+    gaveIn: false,
+    cigarettesSmoked: 0
   });
 
   const triggers = [
@@ -73,17 +75,23 @@ export default function Cravings() {
         notes: formData.notes,
         copingStrategy: formData.copingStrategy,
         timestamp: new Date(),
-        resolved: false
+        resolved: false,
+        gaveIn: formData.gaveIn,
+        cigarettesSmoked: parseInt(formData.cigarettesSmoked) || 0
       });
 
       setFormData({
         intensity: 5,
         trigger: '',
         notes: '',
-        copingStrategy: ''
+        copingStrategy: '',
+        gaveIn: false,
+        cigarettesSmoked: 0
       });
       setShowForm(false);
       fetchCravings();
+
+      window.dispatchEvent(new Event('cravingUpdated'));
     } catch (error) {
       console.error('Error recording craving:', error);
     } finally {
@@ -132,7 +140,9 @@ export default function Cravings() {
         intensity: 5,
         trigger: '',
         notes: '',
-        copingStrategy: ''
+        copingStrategy: '',
+        gaveIn: false,
+        cigarettesSmoked: 0
       });
       fetchCravings();
     } catch (error) {
@@ -236,6 +246,43 @@ export default function Cravings() {
                   />
                 </div>
 
+                <div className="space-y-4">
+                  <div className="flex items-center">
+                    <input
+                      type="checkbox"
+                      id="gaveIn"
+                      checked={formData.gaveIn}
+                      onChange={(e) => setFormData(prev => ({ 
+                        ...prev, 
+                        gaveIn: e.target.checked,
+                        cigarettesSmoked: e.target.checked ? prev.cigarettesSmoked : 0
+                      }))}
+                      className="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
+                    />
+                    <label htmlFor="gaveIn" className="ml-2 block text-sm text-gray-700">
+                      I gave in to this craving
+                    </label>
+                  </div>
+
+                  {formData.gaveIn && (
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700">
+                        Number of cigarettes smoked
+                      </label>
+                      <input
+                        type="number"
+                        min="0"
+                        value={formData.cigarettesSmoked}
+                        onChange={(e) => setFormData(prev => ({ 
+                          ...prev, 
+                          cigarettesSmoked: Math.max(0, parseInt(e.target.value) || 0)
+                        }))}
+                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
+                      />
+                    </div>
+                  )}
+                </div>
+
                 <div className="flex justify-end">
                   <button
                     type="submit"
@@ -326,6 +373,43 @@ export default function Cravings() {
                         />
                       </div>
 
+                      <div className="space-y-4">
+                        <div className="flex items-center">
+                          <input
+                            type="checkbox"
+                            id="editGaveIn"
+                            checked={formData.gaveIn}
+                            onChange={(e) => setFormData(prev => ({ 
+                              ...prev, 
+                              gaveIn: e.target.checked,
+                              cigarettesSmoked: e.target.checked ? prev.cigarettesSmoked : 0
+                            }))}
+                            className="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
+                          />
+                          <label htmlFor="editGaveIn" className="ml-2 block text-sm text-gray-700">
+                            I gave in to this craving
+                          </label>
+                        </div>
+
+                        {formData.gaveIn && (
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700">
+                              Number of cigarettes smoked
+                            </label>
+                            <input
+                              type="number"
+                              min="0"
+                              value={formData.cigarettesSmoked}
+                              onChange={(e) => setFormData(prev => ({ 
+                                ...prev, 
+                                cigarettesSmoked: Math.max(0, parseInt(e.target.value) || 0)
+                              }))}
+                              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
+                            />
+                          </div>
+                        )}
+                      </div>
+
                       <div className="flex justify-end space-x-3">
                         <button
                           type="button"
@@ -376,7 +460,9 @@ export default function Cravings() {
                                   intensity: craving.intensity,
                                   trigger: craving.trigger,
                                   notes: craving.notes || '',
-                                  copingStrategy: craving.copingStrategy || ''
+                                  copingStrategy: craving.copingStrategy || '',
+                                  gaveIn: craving.gaveIn,
+                                  cigarettesSmoked: craving.cigarettesSmoked || 0
                                 });
                               }}
                               className="text-gray-400 hover:text-primary"

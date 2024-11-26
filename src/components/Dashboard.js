@@ -2,18 +2,58 @@ import { useEffect, useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { differenceInDays, differenceInHours, differenceInMinutes, differenceInSeconds } from 'date-fns';
+import { collection, query, where, getDocs } from 'firebase/firestore';
+import { db } from '../firebase/config';
 
 export default function Dashboard() {
   const { currentUser, logout } = useAuth();
   const navigate = useNavigate();
   const [stats, setStats] = useState(null);
   const [isFirstHour, setIsFirstHour] = useState(false);
+  const [cigarettesFromCravings, setCigarettesFromCravings] = useState(0);
+  const [hasRecentSmoke, setHasRecentSmoke] = useState(false);
+
+  const fetchCravingsData = async () => {
+    try {
+      const q = query(
+        collection(db, 'cravings'),
+        where('userId', '==', currentUser.uid),
+        where('gaveIn', '==', true)
+      );
+      const querySnapshot = await getDocs(q);
+      const totalCigarettes = querySnapshot.docs.reduce((total, doc) => {
+        return total + (doc.data().cigarettesSmoked || 0);
+      }, 0);
+      setCigarettesFromCravings(totalCigarettes);
+
+      const twentyFourHoursAgo = new Date(new Date().getTime() - (24 * 60 * 60 * 1000));
+      const recentSmoke = querySnapshot.docs.some(doc => {
+        const cravingDate = doc.data().timestamp.toDate();
+        return cravingDate > twentyFourHoursAgo && doc.data().gaveIn;
+      });
+      setHasRecentSmoke(recentSmoke);
+    } catch (error) {
+      console.error('Error fetching cravings data:', error);
+    }
+  };
 
   useEffect(() => {
     if (!currentUser?.smokingData) {
       navigate('/welcome');
       return;
     }
+
+    fetchCravingsData();
+
+    window.addEventListener('cravingUpdated', fetchCravingsData);
+
+    return () => {
+      window.removeEventListener('cravingUpdated', fetchCravingsData);
+    };
+  }, [currentUser]);
+
+  useEffect(() => {
+    if (!currentUser?.smokingData) return;
 
     const calculateStats = () => {
       const {
@@ -33,16 +73,15 @@ export default function Dashboard() {
       const minutes = differenceInMinutes(now, quitDateTime) % 60;
       const seconds = differenceInSeconds(now, quitDateTime) % 60;
 
-      // Check if we're in the first hour
       setIsFirstHour(totalHours < 1);
 
-      const cigarettesPerMinute = cigarettesPerDay / 1440; // cigarettes per minute
+      const cigarettesPerMinute = cigarettesPerDay / 1440;
       const timeInMinutes = (days * 1440) + (hours * 60) + minutes + (seconds / 60);
-      const cigarettesNotSmoked = timeInMinutes * cigarettesPerMinute;
+      
+      const cigarettesNotSmoked = Math.max(0, (timeInMinutes * cigarettesPerMinute) - cigarettesFromCravings);
 
       const moneySaved = (cigarettesNotSmoked / cigarettesPerPack) * costPerPack;
 
-      // Health progress with more granular updates for first hour
       const healthProgress = [
         { days: 1, milestone: "Blood oxygen levels return to normal", progress: 0 },
         { days: 2, milestone: "Sense of taste and smell improve", progress: 0 },
@@ -50,45 +89,51 @@ export default function Dashboard() {
         { days: 14, milestone: "Circulation improves", progress: 0 },
         { days: 30, milestone: "Lung function increases", progress: 0 },
         { days: 90, milestone: "Risk of heart attack decreases", progress: 0 }
-      ].map(milestone => ({
-        ...milestone,
-        progress: Math.min(100, ((days + (hours/24) + (minutes/1440) + (seconds/86400)) / milestone.days) * 100)
-      }));
+      ].map(milestone => {
+        let progress = ((days + (hours/24) + (minutes/1440) + (seconds/86400)) / milestone.days) * 100;
+        
+        if (hasRecentSmoke) {
+          progress = Math.max(0, progress - 25);
+        }
+        
+        const progressReduction = (cigarettesFromCravings / cigarettesPerDay) * 10;
+        progress = Math.max(0, progress - progressReduction);
+        
+        return {
+          ...milestone,
+          progress: Math.min(100, progress)
+        };
+      });
 
       return {
         days,
         hours,
         minutes,
         seconds,
-        cigarettesNotSmoked: Math.round(cigarettesNotSmoked * 100) / 100,
-        moneySaved: (Math.round(moneySaved * 100) / 100).toFixed(2),
+        cigarettesNotSmoked: Math.max(0, Math.round(cigarettesNotSmoked * 100) / 100),
+        moneySaved: Math.max(0, (Math.round(moneySaved * 100) / 100)).toFixed(2),
         currency,
         healthProgress
       };
     };
 
-    // Set up intervals based on whether we're in the first hour
     const updateStats = () => {
       const newStats = calculateStats();
       setStats(prev => {
         if (!prev) return newStats;
         return {
           ...newStats,
-          // Animate cigarettes and money by incrementing smoothly
           cigarettesNotSmoked: prev.cigarettesNotSmoked + (newStats.cigarettesNotSmoked - prev.cigarettesNotSmoked) * 0.1,
           moneySaved: (parseFloat(prev.moneySaved) + (parseFloat(newStats.moneySaved) - parseFloat(prev.moneySaved)) * 0.1).toFixed(2)
         };
       });
     };
 
-    // Initial calculation
     updateStats();
-
-    // Set up interval based on first hour status
     const interval = setInterval(updateStats, isFirstHour ? 1000 : 60000);
 
     return () => clearInterval(interval);
-  }, [currentUser, navigate, isFirstHour]);
+  }, [currentUser?.smokingData, cigarettesFromCravings, hasRecentSmoke]);
 
   const handleLogout = async () => {
     try {
