@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { differenceInDays, differenceInHours, differenceInMinutes, differenceInSeconds } from 'date-fns';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../firebase/config';
+import HealthVisualization from './HealthVisualization';
 
 const getMotivationalMessage = (cigarettesFromCravings, hasRecentSmoke, totalDays) => {
   const messages = {
@@ -310,6 +311,8 @@ export default function Dashboard() {
               ))}
             </div>
           </div>
+
+          <HealthVisualization days={stats.days} />
         </div>
       </main>
 
