@@ -1,24 +1,68 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider } from './contexts/AuthContext';
+import PrivateRoute from './components/PrivateRoute';
+import Navbar from './components/Navbar';
+import Login from './components/Login';
+import Signup from './components/Signup';
+import WelcomeForm from './components/WelcomeForm';
+import Dashboard from './components/Dashboard';
+import Profile from './components/Profile';
+import Breathing from './components/Breathing';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <AuthProvider>
+        <div className="min-h-screen bg-background">
+          <Routes>
+            {/* Public routes */}
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+
+            {/* Protected routes */}
+            <Route path="/welcome" element={
+              <PrivateRoute>
+                <WelcomeForm />
+              </PrivateRoute>
+            } />
+            <Route path="/dashboard" element={
+              <PrivateRoute>
+                <div>
+                  <Navbar />
+                  <Dashboard />
+                </div>
+              </PrivateRoute>
+            } />
+            <Route path="/profile" element={
+              <PrivateRoute>
+                <div>
+                  <Navbar />
+                  <Profile />
+                </div>
+              </PrivateRoute>
+            } />
+            <Route path="/breathing" element={
+              <PrivateRoute>
+                <div>
+                  <Navbar />
+                  <Breathing />
+                </div>
+              </PrivateRoute>
+            } />
+
+            {/* Root route */}
+            <Route path="/" element={
+              <PrivateRoute>
+                <Navigate to="/dashboard" replace />
+              </PrivateRoute>
+            } />
+
+            {/* Catch all route */}
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </div>
+      </AuthProvider>
+    </Router>
   );
 }
 
