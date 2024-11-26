@@ -157,7 +157,7 @@ export default function Dashboard() {
       <main className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
         <div className="space-y-6">
           {/* Stats Grid */}
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {/* Time Smoke Free */}
             <div className="bg-white overflow-hidden shadow rounded-lg transform transition-all duration-500 hover:scale-105">
               <div className="px-4 py-5 sm:p-6">
@@ -190,6 +190,36 @@ export default function Dashboard() {
                 </dt>
                 <dd className="mt-1 text-2xl sm:text-3xl font-semibold text-gray-900 transition-all duration-300">
                   {stats.moneySaved}
+                </dd>
+              </div>
+            </div>
+
+            {/* Cravings Monitor */}
+            <div className="bg-white overflow-hidden shadow rounded-lg transform transition-all duration-500 hover:scale-105">
+              <div className="px-4 py-5 sm:p-6">
+                <dt className="text-sm font-medium text-gray-500 truncate">
+                  Cravings Monitor
+                </dt>
+                <dd className="mt-1">
+                  <div className="flex flex-col space-y-1">
+                    <div className="flex items-center justify-between">
+                      <span className="text-2xl sm:text-3xl font-semibold text-gray-900">
+                        {cigarettesFromCravings}
+                      </span>
+                      <span className="text-sm text-gray-500">
+                        Relapses
+                      </span>
+                    </div>
+                    {hasRecentSmoke ? (
+                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                        Recent Activity
+                      </span>
+                    ) : (
+                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                        Staying Strong
+                      </span>
+                    )}
+                  </div>
                 </dd>
               </div>
             </div>
