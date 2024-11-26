@@ -1,12 +1,16 @@
+import { doc, updateDoc } from 'firebase/firestore';
 import { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import { doc, updateDoc } from 'firebase/firestore';
 import { db } from '../firebase/config';
 import { useNavigate } from 'react-router-dom';
 import { badges, getBadgeProgress } from '../config/badges';
 import { differenceInDays } from 'date-fns';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { toast } from 'react-hot-toast';
+
+const isChromeExtensionAvailable = () => {
+  return window?.chrome?.runtime?.id !== undefined;
+};
 
 export default function Profile() {
   const { currentUser, setCurrentUser, deleteAccount } = useAuth();
