@@ -109,8 +109,9 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-        <div className="px-4 py-6 sm:px-0">
+      <main className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+        <div className="space-y-6">
+          {/* Stats Grid */}
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {/* Time Smoke Free */}
             <div className="bg-white overflow-hidden shadow rounded-lg transform transition-all duration-500 hover:scale-105">
@@ -118,7 +119,7 @@ export default function Dashboard() {
                 <dt className="text-sm font-medium text-gray-500 truncate">
                   Time Smoke Free
                 </dt>
-                <dd className="mt-1 text-3xl font-semibold text-gray-900 transition-all duration-300">
+                <dd className="mt-1 text-2xl sm:text-3xl font-semibold text-gray-900 transition-all duration-300">
                   {stats.days}d {stats.hours}h {stats.minutes}m {isFirstHour && `${stats.seconds}s`}
                 </dd>
               </div>
@@ -130,7 +131,7 @@ export default function Dashboard() {
                 <dt className="text-sm font-medium text-gray-500 truncate">
                   Cigarettes Not Smoked
                 </dt>
-                <dd className="mt-1 text-3xl font-semibold text-gray-900 transition-all duration-300">
+                <dd className="mt-1 text-2xl sm:text-3xl font-semibold text-gray-900 transition-all duration-300">
                   {Math.round(stats.cigarettesNotSmoked * 10) / 10}
                 </dd>
               </div>
@@ -142,7 +143,7 @@ export default function Dashboard() {
                 <dt className="text-sm font-medium text-gray-500 truncate">
                   Money Saved ({stats.currency})
                 </dt>
-                <dd className="mt-1 text-3xl font-semibold text-gray-900 transition-all duration-300">
+                <dd className="mt-1 text-2xl sm:text-3xl font-semibold text-gray-900 transition-all duration-300">
                   {stats.moneySaved}
                 </dd>
               </div>
@@ -152,22 +153,24 @@ export default function Dashboard() {
           {/* Health Progress */}
           <div className="mt-8">
             <h2 className="text-lg font-medium text-gray-900 mb-4">Health Progress</h2>
-            <div className="space-y-4">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {stats.healthProgress.map((milestone, index) => (
                 <div key={index} className="bg-white shadow rounded-lg p-4 transform transition-all duration-500 hover:scale-105">
-                  <div className="flex justify-between mb-1">
-                    <span className="text-sm font-medium text-gray-700">
-                      {milestone.milestone}
-                    </span>
-                    <span className="text-sm font-medium text-gray-700">
-                      {Math.round(milestone.progress)}%
-                    </span>
-                  </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2.5">
-                    <div
-                      className="bg-primary h-2.5 rounded-full transition-all duration-1000 ease-out"
-                      style={{ width: `${milestone.progress}%` }}
-                    ></div>
+                  <div className="flex flex-col space-y-2">
+                    <div className="flex justify-between items-start">
+                      <span className="text-sm font-medium text-gray-700 flex-1">
+                        {milestone.milestone}
+                      </span>
+                      <span className="text-sm font-medium text-gray-700 ml-2">
+                        {Math.round(milestone.progress)}%
+                      </span>
+                    </div>
+                    <div className="w-full bg-gray-200 rounded-full h-2.5">
+                      <div
+                        className="bg-primary h-2.5 rounded-full transition-all duration-1000 ease-out"
+                        style={{ width: `${milestone.progress}%` }}
+                      ></div>
+                    </div>
                   </div>
                 </div>
               ))}

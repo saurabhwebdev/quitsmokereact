@@ -83,13 +83,13 @@ export default function Profile() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="py-8">
+      <div className="py-4 sm:py-8">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-white shadow rounded-lg overflow-hidden">
             {/* Profile Header */}
-            <div className="bg-primary px-4 py-5 sm:px-6">
-              <div className="flex items-center justify-between">
-                <div>
+            <div className="bg-primary px-4 py-4 sm:px-6 sm:py-5">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+                <div className="mb-4 sm:mb-0">
                   <h3 className="text-lg leading-6 font-medium text-white">
                     Profile Information
                   </h3>
@@ -111,14 +111,14 @@ export default function Profile() {
               {isEditing ? (
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-                    <div>
+                    <div className="col-span-1 sm:col-span-2">
                       <label className="block text-sm font-medium text-gray-700">Name</label>
                       <input
                         type="text"
                         name="name"
                         value={formData.name}
                         onChange={handleChange}
-                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-primary focus:border-primary"
+                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-primary focus:border-primary text-sm sm:text-base"
                       />
                     </div>
                     <div>
@@ -177,11 +177,11 @@ export default function Profile() {
                       </select>
                     </div>
                   </div>
-                  <div className="flex justify-end">
+                  <div className="flex flex-col sm:flex-row sm:justify-end space-y-3 sm:space-y-0 sm:space-x-3">
                     <button
                       type="submit"
                       disabled={loading}
-                      className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+                      className="w-full sm:w-auto inline-flex justify-center items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
                     >
                       {loading ? 'Saving...' : 'Save Changes'}
                     </button>
@@ -189,10 +189,10 @@ export default function Profile() {
                 </form>
               ) : (
                 <div className="space-y-6">
-                  <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                     <div>
                       <h4 className="text-sm font-medium text-gray-500">Name</h4>
-                      <p className="mt-1 text-sm text-gray-900">{currentUser.name}</p>
+                      <p className="mt-1 text-sm sm:text-base text-gray-900">{currentUser.name}</p>
                     </div>
                     <div>
                       <h4 className="text-sm font-medium text-gray-500">Email</h4>
@@ -230,9 +230,9 @@ export default function Profile() {
           </div>
 
           {/* Delete Account Section */}
-          <div className="mt-10 bg-white shadow rounded-lg overflow-hidden">
-            <div className="bg-red-50 px-4 py-5 sm:px-6">
-              <div className="flex items-center justify-between">
+          <div className="mt-6 sm:mt-10 bg-white shadow rounded-lg overflow-hidden">
+            <div className="bg-red-50 px-4 py-4 sm:px-6 sm:py-5">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
                 <div>
                   <h3 className="text-lg leading-6 font-medium text-red-800">
                     Danger Zone
@@ -243,23 +243,23 @@ export default function Profile() {
                 </div>
               </div>
             </div>
-            <div className="px-4 py-5 sm:p-6">
+            <div className="px-4 py-4 sm:px-6 sm:py-5">
               {showDeleteConfirm ? (
                 <div className="space-y-4">
-                  <p className="text-sm text-gray-700">
-                    Are you absolutely sure you want to delete your account? All of your data will be permanently removed. This action cannot be undone.
+                  <p className="text-sm sm:text-base text-gray-700">
+                    Are you absolutely sure you want to delete your account? All of your data will be permanently removed.
                   </p>
-                  <div className="flex space-x-4">
+                  <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3">
                     <button
                       onClick={handleDeleteAccount}
                       disabled={loading}
-                      className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                      className="w-full sm:w-auto inline-flex justify-center items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
                     >
                       {loading ? 'Deleting...' : 'Yes, Delete My Account'}
                     </button>
                     <button
                       onClick={() => setShowDeleteConfirm(false)}
-                      className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+                      className="w-full sm:w-auto inline-flex justify-center items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
                     >
                       Cancel
                     </button>
@@ -268,7 +268,7 @@ export default function Profile() {
               ) : (
                 <button
                   onClick={() => setShowDeleteConfirm(true)}
-                  className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                  className="w-full sm:w-auto inline-flex justify-center items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
                 >
                   Delete Account
                 </button>
