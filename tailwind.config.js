@@ -6,58 +6,61 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: '#FF0000',
-        secondary: '#000000',
-        background: '#FFFFFF',
+        primary: '#ef4444', // red-500
+        background: '#f9fafb', // gray-50
       },
       fontFamily: {
-        roboto: ['Roboto', 'sans-serif'],
-      },
-      keyframes: {
-        expand: {
-          '0%': { transform: 'scale(1)', opacity: '1' },
-          '100%': { transform: 'scale(1.25)', opacity: '1' }
-        },
-        contract: {
-          '0%': { transform: 'scale(1.25)', opacity: '1' },
-          '100%': { transform: 'scale(1)', opacity: '1' }
-        },
-        smoke1: {
-          '0%': { transform: 'translate(0, 0) scale(1)', opacity: '0' },
-          '10%': { opacity: '0.5' },
-          '100%': { transform: 'translate(-10px, -20px) scale(2)', opacity: '0' }
-        },
-        smoke2: {
-          '0%': { transform: 'translate(0, 0) scale(1)', opacity: '0' },
-          '20%': { opacity: '0.5' },
-          '100%': { transform: 'translate(-15px, -25px) scale(2)', opacity: '0' }
-        },
-        smoke3: {
-          '0%': { transform: 'translate(0, 0) scale(1)', opacity: '0' },
-          '30%': { opacity: '0.5' },
-          '100%': { transform: 'translate(-5px, -30px) scale(2)', opacity: '0' }
-        },
-        crossLine1: {
-          '0%': { transform: 'scale(0)', opacity: '0' },
-          '100%': { transform: 'scale(1)', opacity: '1' }
-        },
-        crossLine2: {
-          '0%': { transform: 'scale(0)', opacity: '0' },
-          '50%': { transform: 'scale(0)', opacity: '0' },
-          '100%': { transform: 'scale(1)', opacity: '1' }
-        }
+        sans: ['Inter', 'system-ui', 'sans-serif'], // You can change 'Inter' to your preferred font
       },
       animation: {
-        expand: 'expand 4s ease-in-out forwards',
-        contract: 'contract 8s ease-in-out forwards',
-        'smoke-1': 'smoke1 3s ease-out infinite',
-        'smoke-2': 'smoke2 3s ease-out infinite 0.5s',
-        'smoke-3': 'smoke3 3s ease-out infinite 1s',
-        'cross-1': 'crossLine1 1s ease-out forwards',
-        'cross-2': 'crossLine2 1.5s ease-out forwards'
+        'spin-slow': 'spin 20s linear infinite',
+        'reverse-spin': 'reverse-spin 25s linear infinite',
+        'float': 'float 6s ease-in-out infinite',
+        'float-delay': 'float 6s ease-in-out infinite 3s',
+        'expand': 'expand 4s ease-in-out infinite',
+        'contract': 'contract 4s ease-in-out infinite',
+        'wiggle': 'wiggle 1s ease-in-out infinite',
+        'smoke-1': 'smoke 2s ease-out infinite',
+        'smoke-2': 'smoke 2s ease-out infinite 0.5s',
+        'smoke-3': 'smoke 2s ease-out infinite 1s',
+      },
+      keyframes: {
+        'reverse-spin': {
+          from: { transform: 'rotate(360deg)' },
+          to: { transform: 'rotate(0deg)' },
+        },
+        float: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-20px)' },
+        },
+        expand: {
+          '0%, 100%': { transform: 'scale(1)' },
+          '50%': { transform: 'scale(1.2)' },
+        },
+        contract: {
+          '0%, 100%': { transform: 'scale(1)' },
+          '50%': { transform: 'scale(0.8)' },
+        },
+        wiggle: {
+          '0%, 100%': { transform: 'rotate(0deg)' },
+          '25%': { transform: 'rotate(-10deg)' },
+          '75%': { transform: 'rotate(10deg)' },
+        },
+        smoke: {
+          '0%': {
+            transform: 'translateY(0) scale(1)',
+            opacity: '0.2'
+          },
+          '100%': {
+            transform: 'translateY(-10px) scale(1.5) translateX(5px)',
+            opacity: '0'
+          }
+        }
       }
     },
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/forms'),
+  ],
 }
 

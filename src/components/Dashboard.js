@@ -316,34 +316,67 @@ export default function Dashboard() {
         </div>
       </main>
 
-      {/* Updated Buy Me a Coffee Button */}
+      {/* Buy Me a Coffee Button with Smoke Animation */}
       <a
         href="https://www.buymeacoffee.com/saurabhthakur07"
         target="_blank"
         rel="noopener noreferrer"
-        className="fixed bottom-8 right-8 inline-flex items-center px-4 py-2.5 border border-transparent 
-          text-sm sm:text-base font-medium rounded-lg shadow-lg text-white bg-primary hover:bg-red-700 
+        className="fixed bottom-8 right-8 inline-flex items-center p-3 border border-transparent 
+          rounded-full shadow-lg text-white bg-primary hover:bg-red-700 
           focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-all duration-200 
-          hover:scale-105 group space-x-2"
+          hover:scale-105 group hover:rounded-lg"
       >
-        {/* Coffee Cup Icon */}
-        <svg 
-          className="w-5 h-5 sm:w-6 sm:h-6 group-hover:animate-wiggle"
-          viewBox="0 0 24 24" 
-          fill="currentColor"
-        >
-          <path d="M2 21h18v-2H2M20 8h-2V5h2m0-2H4v10a4 4 0 0 0 4 4h6a4 4 0 0 0 4-4v-3h2a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2z"/>
-        </svg>
-        <span className="hidden sm:inline">Buy me a coffee</span>
-        <span className="sm:hidden">Coffee</span>
+        {/* Coffee Cup Icon with Smoke */}
+        <div className="relative">
+          {/* Smoke Animation */}
+          <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+            <div className="relative w-2">
+              <div className="animate-smoke-1 absolute w-2 h-2 rounded-full bg-white/20"></div>
+              <div className="animate-smoke-2 absolute w-2 h-2 rounded-full bg-white/20 delay-300"></div>
+              <div className="animate-smoke-3 absolute w-2 h-2 rounded-full bg-white/20 delay-600"></div>
+            </div>
+          </div>
+          {/* Coffee Cup */}
+          <svg 
+            className="w-6 h-6 group-hover:animate-wiggle"
+            viewBox="0 0 24 24" 
+            fill="currentColor"
+          >
+            <path d="M2 21h18v-2H2M20 8h-2V5h2m0-2H4v10a4 4 0 0 0 4 4h6a4 4 0 0 0 4-4v-3h2a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2z"/>
+          </svg>
+        </div>
+        <span className="max-w-0 overflow-hidden whitespace-nowrap group-hover:max-w-xs transition-all duration-500 ease-linear ml-0 group-hover:ml-2">
+          Buy me a coffee
+        </span>
       </a>
 
-      {/* Add this keyframe animation to your CSS */}
+      {/* Add these keyframe animations to your CSS */}
       <style jsx>{`
         @keyframes wiggle {
           0%, 100% { transform: rotate(0deg); }
           25% { transform: rotate(-10deg); }
           75% { transform: rotate(10deg); }
+        }
+        @keyframes smoke-1 {
+          0% { transform: translateY(0) scale(1); opacity: 0.2; }
+          100% { transform: translateY(-10px) scale(1.5) translateX(5px); opacity: 0; }
+        }
+        @keyframes smoke-2 {
+          0% { transform: translateY(0) scale(1); opacity: 0.2; }
+          100% { transform: translateY(-12px) scale(1.5) translateX(-5px); opacity: 0; }
+        }
+        @keyframes smoke-3 {
+          0% { transform: translateY(0) scale(1); opacity: 0.2; }
+          100% { transform: translateY(-8px) scale(1.5) translateX(2px); opacity: 0; }
+        }
+        .animate-smoke-1 {
+          animation: smoke-1 2s infinite;
+        }
+        .animate-smoke-2 {
+          animation: smoke-2 2s infinite;
+        }
+        .animate-smoke-3 {
+          animation: smoke-3 2s infinite;
         }
         .animate-wiggle {
           animation: wiggle 1s ease-in-out infinite;

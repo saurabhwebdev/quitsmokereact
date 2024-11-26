@@ -5,7 +5,7 @@
 @tailwind utilities;
 
 body {
-  @apply font-roboto bg-background text-secondary;
+  @apply bg-background;
 }
 
 code {

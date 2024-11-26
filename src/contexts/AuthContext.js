@@ -6,7 +6,8 @@ import {
   onAuthStateChanged,
   GoogleAuthProvider,
   signInWithPopup,
-  deleteUser
+  deleteUser,
+  sendPasswordResetEmail
 } from 'firebase/auth';
 import { doc, setDoc, getDoc, deleteDoc } from 'firebase/firestore';
 import { auth, db } from '../firebase/config';
@@ -107,6 +108,14 @@ export function AuthProvider({ children }) {
     }
   };
 
+  const resetPassword = async (email) => {
+    try {
+      await sendPasswordResetEmail(auth, email);
+    } catch (error) {
+      throw error;
+    }
+  };
+
   const value = {
     currentUser,
     loading,
@@ -114,7 +123,8 @@ export function AuthProvider({ children }) {
     login,
     logout,
     signupWithGoogle,
-    deleteAccount
+    deleteAccount,
+    resetPassword
   };
 
   return (
