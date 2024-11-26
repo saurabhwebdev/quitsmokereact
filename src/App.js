@@ -8,6 +8,7 @@ import WelcomeForm from './components/WelcomeForm';
 import Dashboard from './components/Dashboard';
 import Profile from './components/Profile';
 import Breathing from './components/Breathing';
+import Cravings from './components/Cravings';
 
 function App() {
   return (
@@ -46,6 +47,14 @@ function App() {
                 <div>
                   <Navbar />
                   <Breathing />
+                </div>
+              </PrivateRoute>
+            } />
+            <Route path="/cravings" element={
+              <PrivateRoute>
+                <div>
+                  <Navbar />
+                  <Cravings />
                 </div>
               </PrivateRoute>
             } />

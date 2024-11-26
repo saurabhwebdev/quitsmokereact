@@ -48,6 +48,12 @@ export default function Navbar() {
             >
               Profile
             </Link>
+            <Link
+              to="/cravings"
+              className="text-gray-700 hover:text-primary px-3 py-2 rounded-md text-sm font-medium"
+            >
+              Cravings
+            </Link>
             <button
               onClick={handleLogout}
               className="text-gray-700 hover:text-primary px-3 py-2 rounded-md text-sm font-medium"
@@ -123,6 +129,13 @@ export default function Navbar() {
               onClick={() => setIsMenuOpen(false)}
             >
               Profile
+            </Link>
+            <Link
+              to="/cravings"
+              className="block text-gray-700 hover:text-primary px-3 py-2 rounded-md text-base font-medium"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Cravings
             </Link>
             <button
               onClick={() => {
